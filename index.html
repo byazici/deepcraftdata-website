@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepCraft Data — PostgreSQL Expertise</title>
+    <meta name="description" content="PostgreSQL consulting and audit intelligence. 20+ years of expertise — from architecture to optimization.">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:           #0a0e1a;
+            --bg2:          #0d1120;
+            --blue:         #3b82f6;
+            --purple:       #8b5cf6;
+            --green:        #22c55e;
+            --text:         #e2e8f0;
+            --muted:        #94a3b8;
+            --dim:          #64748b;
+            --card-bg:      rgba(255,255,255,0.03);
+            --card-border:  rgba(255,255,255,0.07);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ── NAV ─────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2.5rem;
+            background: rgba(10,14,26,0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--card-border);
+            transition: box-shadow 0.3s;
+        }
+
+        .nav-logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .nav-cta {
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white !important;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* ── HERO ────────────────────────────────────── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: "";
+            position: absolute;
+            top: -100px; left: 50%;
+            transform: translateX(-50%);
+            width: 900px; height: 700px;
+            background: radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner { max-width: 760px; position: relative; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(59,130,246,0.1);
+            border: 1px solid rgba(59,130,246,0.2);
+            color: var(--blue);
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.07em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .hero-h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-h1 .grad {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 0.85rem 2rem;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59,130,246,0.3);
+        }
+
+        .btn-secondary {
+            padding: 0.85rem 2rem;
+            background: transparent;
+            color: var(--text);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid var(--card-border);
+            transition: border-color 0.2s, background 0.2s;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* ── SHARED SECTION STYLES ───────────────────── */
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .alt-bg { background: var(--bg2); }
+
+        .section-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .section-sub {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        /* ── PRODUCT ─────────────────────────────────── */
+        .product-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.25);
+            color: #4ade80;
+            padding: 0.35rem 1rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .pf-card {
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .pf-card:hover {
+            border-color: rgba(59,130,246,0.25);
+            transform: translateY(-2px);
+        }
+
+        .pf-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+
+        .pf-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .pf-card p {
+            font-size: 0.85rem;
+            color: var(--dim);
+            line-height: 1.55;
+        }
+
+        /* ── SERVICES ────────────────────────────────── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .svc-card {
+            padding: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .svc-card:hover {
+            border-color: rgba(139,92,246,0.3);
+            background: rgba(139,92,246,0.04);
+        }
+
+        .svc-icon {
+            width: 44px; height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(139,92,246,0.15));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .svc-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .svc-list { list-style: none; }
+
+        .svc-list li {
+            font-size: 0.875rem;
+            color: var(--muted);
+            padding: 0.3rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+
+        .svc-list li::before {
+            content: "→";
+            color: var(--blue);
+            font-size: 0.8rem;
+            margin-top: 0.05rem;
+            flex-shrink: 0;
+        }
+
+        /* ── CASE STUDIES ────────────────────────────── */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .case-card {
+            padding: 2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .case-card:hover {
+            border-color: rgba(59,130,246,0.2);
+            transform: translateY(-2px);
+        }
+
+        .case-tag {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.75rem;
+        }
+
+        .case-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.35;
+        }
+
+        .case-card p {
+            font-size: 0.875rem;
+            color: var(--dim);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        /* ── ABOUT ───────────────────────────────────── */
+        .about-card {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 3rem;
+            align-items: center;
+            padding: 2.5rem 3rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+        }
+
+        .about-left { text-align: center; }
+
+        .about-avatar {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.25rem;
+            margin: 0 auto 1rem;
+        }
+
+        .about-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .about-title {
+            font-size: 0.82rem;
+            color: var(--dim);
+            margin-bottom: 1rem;
+        }
+
+        .linkedin-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 1rem;
+            background: rgba(10,102,194,0.12);
+            border: 1px solid rgba(10,102,194,0.3);
+            color: #60a5fa;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .linkedin-btn:hover { background: rgba(10,102,194,0.25); }
+
+        .about-text {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .about-text p + p { margin-top: 1rem; }
+
+        /* ── CONTACT ─────────────────────────────────── */
+        .contact-inner {
+            max-width: 580px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-form {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.9rem 1.25rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus { border-color: var(--blue); }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder { color: var(--dim); }
+
+        .contact-form textarea { resize: vertical; min-height: 130px; }
+
+        .contact-form button {
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .contact-form button:hover { transform: translateY(-1px); }
+        .contact-form button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .contact-msg {
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            min-height: 1.5em;
+            text-align: center;
+        }
+
+        .contact-msg.success { color: var(--green); }
+        .contact-msg.error   { color: #ef4444; }
+
+        /* ── FOOTER ──────────────────────────────────── */
+        footer {
+            border-top: 1px solid var(--card-border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--dim);
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        footer a { color: var(--dim); text-decoration: none; }
+        footer a:hover { color: var(--muted); }
+
+        /* ── RESPONSIVE ──────────────────────────────── */
+        @media (max-width: 900px) {
+            .product-grid  { grid-template-columns: repeat(2, 1fr); }
+            .cases-grid    { grid-template-columns: 1fr; }
+            .about-card    { grid-template-columns: 1fr; text-align: center; }
+        }
+
+        @media (max-width: 640px) {
+            .hero-h1       { font-size: 2.4rem; }
+            .section-title { font-size: 1.8rem; }
+            .product-grid  { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .nav-links     { display: none; }
+            .wrap          { padding: 4rem 1.25rem; }
+        }
+
+        @media (max-width: 400px) {
+            .hero-h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+    <a href="#" class="nav-logo">DeepCraft <span>Data</span></a>
+    <ul class="nav-links">
+        <li><a href="#product">Product</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#cases">Case Studies</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Work With Us</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="hero-inner">
+        <div class="hero-badge">20+ Years PostgreSQL Expertise</div>
+        <h1 class="hero-h1">
+            PostgreSQL expertise —<br>
+            <span class="grad">from audit to architecture</span>
+        </h1>
+        <p class="hero-sub">
+            DeepCraft Audit gives your team instant database health insights.<br>
+            No agents, no jargon — real dollar impact.<br>
+            Built by a DBA, for your whole team.
+        </p>
+        <div class="hero-ctas">
+            <a href="https://app.deepcraftdata.com" class="btn-primary">Try DeepCraft Audit</a>
+            <a href="#contact" class="btn-secondary">Work With Us</a>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCT -->
+<div id="product" class="alt-bg">
+    <div class="wrap">
+        <div class="product-pill">Agentless · Read-only · 5-min setup</div>
+        <div class="section-label">DeepCraft Audit</div>
+        <h2 class="section-title">Your PostgreSQL deserves a health check</h2>
+        <p class="section-sub">
+            Connect once, get deep health insights in plain English — with dollar-cost impact per finding.
+            No agent to install, no server access required.
+        </p>
+        <div class="product-grid">
+            <div class="pf-card">
+                <div class="pf-icon">💰</div>
+                <h3>Cost Translator</h3>
+                <p>See exactly how much your database inefficiencies cost in dollars per month — not just metrics, real money.</p>
+            </div>
+            <div class="pf-card">
+                <div class="pf-icon">🚦</div>
+                <h3>Traffic Light Dashboard</h3>
+                <p>Red, yellow, green — your CEO can understand your DB health in 5 seconds. No DBA jargon required.</p>
+            </div>
+            <div class="pf-card">
+                <div class="pf-icon">🔌</div>
+                <h3>Zero Agents Required</h3>
+                <p>Read-only connection only. Nothing to install, configure, or maintain on your servers.</p>
+            </div>
+            <div class="pf-card">
+                <div class="pf-icon">📊</div>
+                <h3>Always-On Monitoring</h3>
+                <p>Live metrics, trend charts, and stale-detection — your database health at a glance, 24/7.</p>
+            </div>
+            <div class="pf-card">
+                <div class="pf-icon">⬆️</div>
+                <h3>Upgrade Intelligence</h3>
+                <p>Planning a major version upgrade? Get a deterministic risk score before you touch production.</p>
+            </div>
+            <div class="pf-card">
+                <div class="pf-icon">🔔</div>
+                <h3>Weekly Summaries</h3>
+                <p>Plain-English insights delivered to Slack or email every Monday. Know before your users complain.</p>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <a href="https://app.deepcraftdata.com" class="btn-primary">Get Early Access — First Audit Free</a>
+        </div>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+    <div class="wrap" style="padding-top:0; padding-bottom:0;">
+        <div class="section-label">Consulting</div>
+        <h2 class="section-title">PostgreSQL Consulting Services</h2>
+        <p class="section-sub">
+            Hands-on expertise for startups and growing teams who need reliable, high-performance PostgreSQL
+            — without hiring a full-time DBA.
+        </p>
+        <div class="services-grid">
+            <div class="svc-card">
+                <div class="svc-icon">🐘</div>
+                <h3>PostgreSQL Administration</h3>
+                <ul class="svc-list">
+                    <li>Choosing optimum backup plan</li>
+                    <li>Choosing optimum replication plan</li>
+                    <li>Reducing backup/restore time</li>
+                    <li>Reduce database costs significantly</li>
+                </ul>
+            </div>
+            <div class="svc-card">
+                <div class="svc-icon">⏱️</div>
+                <h3>TimescaleDB</h3>
+                <ul class="svc-list">
+                    <li>Design data structure</li>
+                    <li>Maintenance &amp; upgrades</li>
+                    <li>Speed up your query time</li>
+                </ul>
+            </div>
+            <div class="svc-card">
+                <div class="svc-icon">🔄</div>
+                <h3>ETL Design &amp; Implementation</h3>
+                <ul class="svc-list">
+                    <li>Tailor-made ETL design</li>
+                    <li>Performance optimization for high-volume transfers</li>
+                </ul>
+            </div>
+            <div class="svc-card">
+                <div class="svc-icon">🏗️</div>
+                <h3>Data Technology Selection</h3>
+                <ul class="svc-list">
+                    <li>Cloud provider database service selection (Amazon, Google)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CASE STUDIES -->
+<div id="cases" class="alt-bg">
+    <div class="wrap">
+        <div class="section-label">Case Studies</div>
+        <h2 class="section-title">Real results, real databases</h2>
+        <p class="section-sub">Anonymized engagements — every result is from an actual client project.</p>
+        <div class="cases-grid">
+            <div class="case-card">
+                <div class="case-tag">Cost Reduction</div>
+                <h3>Reducing Cloud Database Costs</h3>
+                <p>Disk usage tuning, CPU right-sizing, archiving strategy, and retention policy redesign — resulting in significant monthly cloud spend reduction.</p>
+            </div>
+            <div class="case-card">
+                <div class="case-tag">Version Upgrade</div>
+                <h3>Near-Zero Downtime PostgreSQL Upgrade</h3>
+                <p>Major version upgrade using a combination of offline migration, logical replication, and live data append — with minimal service interruption.</p>
+            </div>
+            <div class="case-card">
+                <div class="case-tag">Performance</div>
+                <h3>Data &amp; Query Optimization</h3>
+                <p>Systematic analysis of slow queries, index strategy, and schema redesign — dramatically reducing query times for a high-traffic application.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="wrap" style="padding-top:0; padding-bottom:0;">
+        <div class="section-label">About</div>
+        <h2 class="section-title">The person behind the work</h2>
+        <div class="about-card">
+            <div class="about-left">
+                <div class="about-avatar">👤</div>
+                <div class="about-name">Burcin Yazici</div>
+                <div class="about-title">Founder · PostgreSQL Specialist</div>
+                <a href="https://www.linkedin.com/in/burcinyazici/" target="_blank" rel="noopener" class="linkedin-btn">
+                    in&nbsp; LinkedIn
+                </a>
+            </div>
+            <div class="about-text">
+                <p>With 20+ years of PostgreSQL expertise, I've worked with startups and mid-size companies on their most critical database challenges — from architecture decisions to production incidents.</p>
+                <p>DeepCraft Data is the product of that experience. The audit tool was born from problems I kept solving manually for clients. Now it's automated, agentless, and available to any team — whether they work with me or not.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact" class="alt-bg">
+    <div class="wrap">
+        <div class="contact-inner">
+            <div class="section-label">Contact</div>
+            <h2 class="section-title">Tell us about your database challenge</h2>
+            <p class="section-sub" style="margin: 0 auto;">
+                Whether it's a consulting engagement or a question about DeepCraft Audit — we're happy to help.
+            </p>
+            <form class="contact-form" onsubmit="submitContact(event)">
+                <input type="text"  id="cName"    placeholder="Your name"           required />
+                <input type="email" id="cEmail"   placeholder="you@company.com"     required />
+                <textarea           id="cMessage" placeholder="Describe your challenge..." required></textarea>
+                <button type="submit" id="cBtn">Send Message</button>
+            </form>
+            <div class="contact-msg" id="cMsg"></div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div>
+        <a href="mailto:info@deepcraftdata.com">info@deepcraftdata.com</a>
+        &nbsp;·&nbsp;
+        <a href="/privacy.html">Privacy Policy</a>
+    </div>
+    <div>&copy; 2026 DeepCraft Data, LLC. All rights reserved.</div>
+</footer>
+
+<script>
+    // Nav shadow on scroll
+    window.addEventListener('scroll', () => {
+        document.getElementById('nav').style.boxShadow =
+            window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.5)' : 'none';
+    });
+
+    // Contact form — Formspree
+    const FORMSPREE_ID = 'xzdallkg';
+
+    async function submitContact(e) {
+        e.preventDefault();
+        const btn = document.getElementById('cBtn');
+        const msg = document.getElementById('cMsg');
+
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        msg.className = 'contact-msg';
+        msg.textContent = '';
+
+        const name    = document.getElementById('cName').value.trim();
+        const email   = document.getElementById('cEmail').value.trim();
+        const message = document.getElementById('cMessage').value.trim();
+
+        try {
+            const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ name, email, message }),
+            });
+
+            if (res.ok) {
+                msg.className = 'contact-msg success';
+                msg.textContent = '✓ Message received! We\'ll get back to you within 1 business day.';
+                btn.textContent = 'Sent!';
+                ['cName', 'cEmail', 'cMessage'].forEach(id => {
+                    document.getElementById(id).disabled = true;
+                });
+            } else {
+                throw new Error();
+            }
+        } catch {
+            msg.className = 'contact-msg error';
+            msg.textContent = 'Something went wrong. Please email us directly: info@deepcraftdata.com';
+            btn.disabled = false;
+            btn.textContent = 'Send Message';
+        }
+    }
+</script>
+
+</body>
+</html>
