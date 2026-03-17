@@ -1,4 +1,5 @@
 deepcraft-audit.code-workspace
+local/
 node_modules/
 dist/
 .astro/

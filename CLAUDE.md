@@ -1,0 +1,62 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
+```bash
+npm run dev       # Start local development server
+npm run build     # Production build (outputs to dist/)
+npm run preview   # Preview the production build
+```
+
+No lint or test commands are configured.
+
+## Architecture
+
+**Astro 4** static site deployed to **Cloudflare Pages**. Uses Tailwind CSS and MDX for content.
+
+### Dual-Entry Pattern
+
+The site has two distinct parts that work independently:
+
+- **`/public/index.html`** — The landing/home page. This is plain HTML, not part of Astro's build pipeline. Blog post previews in it are **hardcoded** and must be updated manually when new posts are published.
+- **`/src/pages/blog/`** — The blog section, fully Astro-generated with dynamic routes.
+
+### Content Collections
+
+Blog posts live in `src/content/blog/` as Markdown files. The schema (defined in `src/content/config.ts`) enforces:
+
+```ts
+title: z.string()
+date: z.date()
+summary: z.string()
+tags: z.array(z.string())
+draft: z.boolean().default(false)
+```
+
+Draft posts (`draft: true`) are excluded from all output. Tags power both the `/blog/tags/[tag]` filtered views and the RSS feed.
+
+### Layout Hierarchy
+
+```
+Base.astro      ← fixed nav, sticky footer, dark theme CSS vars, scroll shadow script
+  └─ Post.astro ← article header (date, reading time, tags), prev/next nav, CTA box
+```
+
+Reading time is calculated as `Math.ceil(wordCount / 200)` inline in `Post.astro`.
+
+### Styling
+
+- **Tailwind utilities** for layout/spacing
+- **CSS custom properties** for the dark color scheme (defined in `src/styles/global.css`): `--bg`, `--bg2`, `--blue`, `--purple`, `--green`, `--text`, `--muted`, `--dim`, etc.
+- **`@tailwindcss/typography`** (`.prose`) for rendered Markdown in blog posts — the dark-mode overrides are in `tailwind.config.mjs`
+- Breakpoints: 900px, 640px, 400px (media queries in Astro template `<style>` blocks)
+
+### No Components Directory
+
+There is no `src/components/` directory. All UI is rendered directly in layouts and page templates. Navigation and footer markup exist only in `Base.astro`.
+
+### Site URL
+
+Canonical site URL is `https://deepcraftdata.com`, set in `astro.config.mjs`. Code blocks use `github-dark` syntax highlighting via Shiki.
