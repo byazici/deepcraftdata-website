@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 56">
+  <!-- Icon: 3 stacked isometric layers -->
+  <polygon points="4,40 28,28 52,40 28,52" fill="#8b5cf6"/>
+  <polygon points="4,27 28,15 52,27 28,39" fill="#3b82f6"/>
+  <polygon points="4,14 28,2  52,14 28,26" fill="#22d3ee"/>
+
+  <!-- Wordmark -->
+  <text x="64" y="38"
+        font-family="system-ui,-apple-system,'Segoe UI',sans-serif"
+        font-size="28"
+        font-weight="700"
+        letter-spacing="1"
+        fill="#f1f5f9">DEEPCRAFT</text>
+  <text x="64" y="38"
+        font-family="system-ui,-apple-system,'Segoe UI',sans-serif"
+        font-size="28"
+        font-weight="700"
+        letter-spacing="1"
+        fill="#f1f5f9"
+        dx="174">
+    <tspan fill="#8b5cf6">DATA</tspan>
+  </text>
+</svg>
