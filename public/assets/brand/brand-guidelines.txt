@@ -1,0 +1,11 @@
+DEEPCRAFT DATA - Brand Assets
+
+Primary logo: svg/logo.svg
+Icon: svg/icon.svg
+
+Recommended usage:
+- Dark backgrounds: logo-horizontal-dark.png
+- Light backgrounds: logo-horizontal.png
+
+Favicons included:
+16,32,48,64,180 + favicon.ico
