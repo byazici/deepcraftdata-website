@@ -85,7 +85,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   margin-top: 4rem;
 ">
   <div>
-    <a href="https://deepcraftdata.com" style="color:var(--dim);text-decoration:none;">deepcraftdata.com</a>
+    <a id="footer-site-link" href="https://deepcraftdata.com" style="color:var(--dim);text-decoration:none;">DeepcraftData</a>
     &nbsp;·&nbsp;
     <a href="mailto:info@deepcraftdata.com" style="color:var(--dim);text-decoration:none;">info@deepcraftdata.com</a>
     &nbsp;·&nbsp;
@@ -105,6 +105,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       nav.style.boxShadow = window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.5)' : 'none';
     }
   });
+  (function() {
+    var isStaging = location.hostname.includes('staging') || location.hostname.includes('.pages.dev');
+    var el = document.getElementById('footer-site-link');
+    if (el && isStaging) el.href = 'https://staging.deepcraftdata.com';
+  })();
 </script>
 
 </body>
