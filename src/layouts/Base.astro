@@ -39,7 +39,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <meta name="twitter:description" content={description} />
 </head>
 <body>
-<div id="staging-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#b45309;color:#fff;text-align:center;font-size:0.8rem;font-weight:600;padding:0.35rem 2rem;letter-spacing:0.05em;">⚠ STAGING — not production<button onclick="document.getElementById('staging-banner').style.display='none'" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;cursor:pointer;font-size:1rem;line-height:1;">✕</button></div>
+<div id="staging-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#b45309;color:#fff;text-align:center;font-size:0.8rem;font-weight:600;padding:0.35rem 2rem;letter-spacing:0.05em;">⚠ STAGING — not production<button onclick="document.getElementById('staging-banner').style.display='none'" style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;cursor:pointer;font-size:1rem;line-height:1;">✕</button></div>
 <script>if(location.hostname.includes('staging')||location.hostname.includes('.pages.dev')){document.getElementById('staging-banner').style.display='block'}</script>
 
 <nav id="nav" style="
@@ -55,7 +55,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   border-bottom: 1px solid var(--card-border);
   transition: box-shadow 0.3s;
 ">
-  <a href="/blog" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;flex-shrink:0;">
+  <a href="https://deepcraftdata.com" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;flex-shrink:0;">
     <img
       src="/assets/brand/deepcraft-logo-transparent.png"
       alt="DeepCraft Data"
@@ -64,7 +64,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <span style="font-size:0.95rem;font-weight:800;letter-spacing:0.08em;color:#ffffff;opacity:0.9;">BLOG</span>
   </a>
   <ul style="display:flex;gap:2rem;list-style:none;align-items:center;margin:0;padding:0;">
-    <li><a href="https://deepcraftdata.com" style="color:var(--muted);text-decoration:none;font-size:0.9rem;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">deepcraftdata.com</a></li>
     <li><a href="/blog/tags" style="color:var(--muted);text-decoration:none;font-size:0.9rem;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Tags</a></li>
     <li><a href="https://app.deepcraftdata.com" style="padding:0.5rem 1.25rem;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">Try DeepCraft Audit</a></li>
   </ul>
