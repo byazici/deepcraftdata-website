@@ -55,17 +55,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   border-bottom: 1px solid var(--card-border);
   transition: box-shadow 0.3s;
 ">
-  <a href="https://deepcraftdata.com" style="display:inline-flex;align-items:center;gap:0.6rem;text-decoration:none;flex-shrink:0;">
+  <!-- Left: logo -->
+  <a id="nav-logo-link" href="https://deepcraftdata.com" style="display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0;">
     <img
       src="/assets/brand/deepcraft-logo-transparent.png"
       alt="DeepCraft Data"
       style="height:44px;width:auto;"
     />
-    <span style="font-size:0.95rem;font-weight:800;letter-spacing:0.08em;color:#ffffff;opacity:0.9;">BLOG</span>
   </a>
+  <!-- Center: blog heading -->
+  <a href="/blog" style="position:absolute;left:50%;transform:translateX(-50%);text-decoration:none;">
+    <h2 style="margin:0;font-size:1.15rem;font-weight:800;letter-spacing:0.06em;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;">DeepcraftData Blog</h2>
+  </a>
+  <!-- Right: nav links -->
   <ul style="display:flex;gap:2rem;list-style:none;align-items:center;margin:0;padding:0;">
     <li><a href="/blog/tags" style="color:var(--muted);text-decoration:none;font-size:0.9rem;transition:color 0.2s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Tags</a></li>
-    <li><a href="https://app.deepcraftdata.com" style="padding:0.5rem 1.25rem;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">Try DeepCraft Audit</a></li>
+    <li><a id="nav-audit-link" href="https://app.deepcraftdata.com" style="padding:0.5rem 1.25rem;background:linear-gradient(135deg,var(--blue),var(--purple));color:white;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">Try DeepCraft Audit</a></li>
   </ul>
 </nav>
 
@@ -107,8 +112,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   });
   (function() {
     var isStaging = location.hostname.includes('staging') || location.hostname.includes('.pages.dev');
-    var el = document.getElementById('footer-site-link');
-    if (el && isStaging) el.href = 'https://staging.deepcraftdata.com';
+    if (!isStaging) return;
+    var footerLink = document.getElementById('footer-site-link');
+    if (footerLink) footerLink.href = 'https://staging.deepcraftdata.com';
+    var navLogo = document.getElementById('nav-logo-link');
+    if (navLogo) navLogo.href = 'https://staging.deepcraftdata.com';
+    var auditLink = document.getElementById('nav-audit-link');
+    if (auditLink) auditLink.href = 'https://app-staging.deepcraftdata.com';
   })();
 </script>
 
