@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.12" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0" />
+    </linearGradient>
+    <radialGradient id="bgGlow" cx="50%" cy="35%" r="55%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.08" />
+      <stop offset="100%" style="stop-color:#0a0e1a;stop-opacity:0" />
+    </radialGradient>
+    <clipPath id="roundedBg">
+      <rect width="1200" height="630" rx="0" ry="0"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0e1a"/>
+
+  <!-- Ambient glow -->
+  <ellipse cx="600" cy="220" rx="580" ry="320" fill="url(#bgGlow)"/>
+
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="1" x2="1200" y2="1" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="0" y1="629" x2="1200" y2="629" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+  <!-- Top border accent -->
+  <rect x="0" y="0" width="1200" height="3" fill="url(#grad1)"/>
+
+  <!-- Logo (embedded as image) -->
+  <image href="public/assets/brand/deepcraft-logo-transparent.png"
+         x="390" y="62" width="420" height="93"/>
+
+  <!-- Divider line under logo -->
+  <line x1="500" y1="178" x2="700" y2="178" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Badge pill -->
+  <rect x="476" y="200" width="248" height="34" rx="17" fill="rgba(59,130,246,0.12)" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+  <text x="600" y="222" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="700" fill="#3b82f6" text-anchor="middle" letter-spacing="2">DEEPCRAFT AUDIT</text>
+
+  <!-- Main headline -->
+  <text x="600" y="305" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="54" font-weight="800" fill="url(#grad1)" text-anchor="middle" letter-spacing="-1.5">PostgreSQL Health</text>
+  <text x="600" y="368" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="54" font-weight="800" fill="#e2e8f0" text-anchor="middle" letter-spacing="-1.5">in 5 Minutes</text>
+
+  <!-- Subheadline -->
+  <text x="600" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="21" fill="#94a3b8" text-anchor="middle">Cache · Bloat · Slow Queries · Cost Impact — in plain English</text>
+
+  <!-- Feature pills row -->
+  <!-- Pill 1: Read-only -->
+  <rect x="248" y="462" width="154" height="36" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="325" y="485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#64748b" text-anchor="middle">Read-only</text>
+
+  <!-- Pill 2: No Agent -->
+  <rect x="420" y="462" width="154" height="36" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="497" y="485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#64748b" text-anchor="middle">No Agent</text>
+
+  <!-- Pill 3: 5-min setup -->
+  <rect x="592" y="462" width="154" height="36" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="669" y="485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#64748b" text-anchor="middle">5-min Setup</text>
+
+  <!-- Pill 4: $ Impact -->
+  <rect x="764" y="462" width="154" height="36" rx="18" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="841" y="485" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#64748b" text-anchor="middle">$ Cost Impact</text>
+
+  <!-- URL at bottom -->
+  <text x="600" y="580" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" fill="#475569" text-anchor="middle" letter-spacing="1">deepcraftdata.com</text>
+</svg>

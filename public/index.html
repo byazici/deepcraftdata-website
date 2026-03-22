@@ -10,6 +10,19 @@
     <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://deepcraftdata.com/">
+    <meta property="og:title" content="DeepCraft Data — PostgreSQL Expertise">
+    <meta property="og:description" content="PostgreSQL consulting and audit intelligence. 20+ years of expertise — from architecture to optimization.">
+    <meta property="og:image" content="https://deepcraftdata.com/assets/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DeepCraft Data — PostgreSQL Expertise">
+    <meta name="twitter:description" content="PostgreSQL consulting and audit intelligence. 20+ years of expertise — from architecture to optimization.">
+    <meta name="twitter:image" content="https://deepcraftdata.com/assets/og-image.png">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -188,6 +201,64 @@
             border-color: rgba(255,255,255,0.2);
             background: rgba(255,255,255,0.03);
         }
+
+        /* ── WAITLIST FORM ───────────────────────────── */
+        .waitlist-form {
+            display: flex;
+            gap: 0.625rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .waitlist-input {
+            flex: 1 1 260px;
+            max-width: 340px;
+            padding: 0.85rem 1.25rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .waitlist-input:focus { border-color: var(--blue); }
+        .waitlist-input::placeholder { color: var(--dim); }
+
+        .waitlist-btn {
+            padding: 0.85rem 1.75rem;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+            font-family: inherit;
+        }
+
+        .waitlist-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(59,130,246,0.3);
+        }
+
+        .waitlist-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .waitlist-hint {
+            margin-top: 0.75rem;
+            font-size: 0.82rem;
+            color: var(--dim);
+            min-height: 1.4em;
+            text-align: center;
+        }
+
+        .waitlist-hint.success { color: var(--green); }
+        .waitlist-hint.error   { color: #ef4444; }
 
         /* ── SHARED SECTION STYLES ───────────────────── */
         .wrap {
@@ -547,14 +618,17 @@
         <li><a href="#services">Services</a></li>
         <li><a href="#cases">Case Studies</a></li>
         <li><a href="/blog">Blog</a></li>
-        <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+        <li><a href="#hero" class="nav-cta">Get Early Access</a></li>
     </ul>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
     <div class="hero-inner">
-        <div class="hero-badge">20+ Years Database Expertise</div>
+        <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem;">
+            <div class="hero-badge" style="margin-bottom:0;">20+ Years Database Expertise</div>
+            <div class="hero-badge" style="margin-bottom:0;background:rgba(139,92,246,0.12);border-color:rgba(139,92,246,0.3);color:#a78bfa;">Coming Very Soon</div>
+        </div>
         <h1 class="hero-h1">
             PostgreSQL expertise —<br>
             <span class="grad">from audit to architecture</span>
@@ -564,10 +638,11 @@
             No agents, no jargon — real dollar impact.<br>
             Built by a DBA, for your whole team.
         </p>
-        <div class="hero-ctas">
-            <a href="https://app.deepcraftdata.com" class="btn-primary">Try DeepCraft Audit</a>
-            <a href="#contact" class="btn-secondary">Contact Us</a>
-        </div>
+        <form class="waitlist-form" onsubmit="submitWaitlist(event)">
+            <input class="waitlist-input" type="email" id="wEmail" placeholder="your@company.com" required />
+            <button class="waitlist-btn" type="submit" id="wBtn">Get Early Access →</button>
+        </form>
+        <div class="waitlist-hint" id="wHint">No spam · We'll notify you when we launch</div>
     </div>
 </section>
 
@@ -614,7 +689,7 @@
             </div>
         </div>
         <div style="text-align:center;">
-            <a href="https://app.deepcraftdata.com" class="btn-primary">Get Your Free PostgreSQL Audit</a>
+            <a href="#hero" class="btn-primary">Get Early Access</a>
         </div>
     </div>
 </div>
@@ -765,6 +840,47 @@
         document.getElementById('nav').style.boxShadow =
             window.scrollY > 10 ? '0 2px 20px rgba(0,0,0,0.5)' : 'none';
     });
+
+    // Waitlist form
+    const API_BASE = (location.hostname.includes('staging') || location.hostname.includes('.pages.dev'))
+        ? 'https://api-staging.deepcraftdata.com'
+        : 'https://api.deepcraftdata.com';
+
+    async function submitWaitlist(e) {
+        e.preventDefault();
+        const btn  = document.getElementById('wBtn');
+        const hint = document.getElementById('wHint');
+        const email = document.getElementById('wEmail').value.trim();
+
+        btn.disabled = true;
+        btn.textContent = 'Joining...';
+        hint.className = 'waitlist-hint';
+        hint.textContent = '';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/v1/waitlist/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+            const data = await res.json();
+            if (res.ok || res.status === 201) {
+                hint.className = 'waitlist-hint success';
+                hint.textContent = data.position
+                    ? `✓ You're #${data.position} on the list! We'll email you when we launch.`
+                    : `✓ ${data.message}`;
+                document.getElementById('wEmail').disabled = true;
+                btn.textContent = 'You\'re in!';
+            } else {
+                throw new Error();
+            }
+        } catch {
+            hint.className = 'waitlist-hint error';
+            hint.textContent = 'Something went wrong. Try emailing us: info@deepcraftdata.com';
+            btn.disabled = false;
+            btn.textContent = 'Get Early Access →';
+        }
+    }
 
     // Contact form — Formspree
     const FORMSPREE_ID = 'xzdallkg';

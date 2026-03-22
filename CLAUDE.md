@@ -23,9 +23,18 @@ The site has two distinct parts that work independently:
 - **`/public/index.html`** — The landing/home page. This is plain HTML, not part of Astro's build pipeline. Blog post previews in it are **hardcoded** and must be updated manually when new posts are published.
 - **`/src/pages/blog/`** — The blog section, fully Astro-generated with dynamic routes.
 
+### Staging-Aware Links
+
+`Base.astro` contains inline JavaScript that rewrites specific link `href`s at runtime when `hostname` includes `staging` or `.pages.dev`. The affected elements are identified by ID:
+
+- `nav-logo-link` / `footer-site-link` → `https://staging.deepcraftdata.com`
+- `nav-audit-link` / `post-cta-audit-link` → `https://app-staging.deepcraftdata.com`
+
+When adding new links that should switch between prod/staging, assign one of these IDs or follow the same inline script pattern.
+
 ### Content Collections
 
-Blog posts live in `src/content/blog/` as Markdown files. The schema (defined in `src/content/config.ts`) enforces:
+Blog posts live in `src/content/blog/` as Markdown or MDX files. The schema (defined in `src/content/config.ts`) enforces:
 
 ```ts
 title: z.string()
@@ -36,6 +45,8 @@ draft: z.boolean().default(false)
 ```
 
 Draft posts (`draft: true`) are excluded from all output. Tags power both the `/blog/tags/[tag]` filtered views and the RSS feed.
+
+Prev/next navigation in `[...slug].astro` sorts posts **ascending** (oldest→newest) to determine neighbors, while the blog index sorts **descending** (newest first).
 
 ### Layout Hierarchy
 
