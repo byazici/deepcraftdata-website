@@ -71,3 +71,14 @@ There is no `src/components/` directory. All UI is rendered directly in layouts 
 ### Site URL
 
 Canonical site URL is `https://deepcraftdata.com`, set in `astro.config.mjs`. Code blocks use `github-dark` syntax highlighting via Shiki.
+
+## Local Planning Files
+
+The `local/` directory is gitignored and contains private planning docs. Maintain these files as the project evolves:
+
+- **`project-calendar.txt`** — Phase-level timeline (milestones, launch dates, social media schedule).
+- **`project-plan.txt`** — Full task list. Mark completed items with `[x]` and append `— REPO commit:hash (date)`. Pending items use `[ ]`. REPO prefix: `site` = deepcraft-site, `app` = deepcraft-audit.
+- **`release-notes.txt`** — Changelog of every meaningful release. Add a new entry at the top when shipping a significant change. Format: `[LABEL — YYYY-MM-DD] Title` followed by bullet points and commit ref.
+- **`sharing-plan.txt`** — Social media post copy and calendar. Update when posts are published.
+
+When a task is completed, always update `project-plan.txt` and `release-notes.txt` in the same session.
